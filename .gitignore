@@ -1,0 +1,6 @@
+docs/fonts/SpaceGrotesk-VF.ttf
+docs/fonts/_sg-bold-full.ttf
+docs/_gen/
+__pycache__/
+.pytest_cache/
+shots/
