@@ -128,10 +128,10 @@ def make_og() -> None:
         col = lerp(CARD, col, fade)
         dr.line(pts + [pts[0]], fill=col, width=2 * S, joint="curve")
 
-    bold = ImageFont.truetype(str(ensure_bold_ttf()), 150 * S)
-    dr.text((80 * S, 170 * S), "Answered.", font=bold, fill=INK)
-    reg = ImageFont.truetype(str(ensure_bold_ttf()), 34 * S)
-    dr.text((84 * S, 360 * S), "AVXT · AI receptionist for Ontario home service shops",
+    bold = ImageFont.truetype(str(ensure_bold_ttf()), 92 * S)
+    dr.text((80 * S, 200 * S), "The phone gets\nanswered.", font=bold, fill=INK)
+    reg = ImageFont.truetype(str(ensure_bold_ttf()), 32 * S)
+    dr.text((84 * S, 452 * S), "AVXT · AI receptionist for Ontario home service shops",
             font=reg, fill=DIM)
 
     img = img.resize((W, H), Image.LANCZOS)

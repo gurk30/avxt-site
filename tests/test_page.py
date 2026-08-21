@@ -38,25 +38,42 @@ import gen_contours  # noqa: E402
 # ---------- helpers ----------
 
 class TextExtractor(HTMLParser):
-    """Visible text nodes, skipping non-content elements."""
+    """Visible text nodes, skipping non-content elements.
+
+    Also skips subtrees marked data-dynamic (JS-filled, e.g. the live clock
+    chip) and aria-hidden="true" (decorative arrows, the footer watermark) —
+    those are not reader copy in the voice-gate sense.
+    """
 
     SKIP = {"style", "script", "svg", "title"}
+    VOID = {"meta", "link", "br", "img", "input", "hr", "source"}
 
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.depth_skip = 0
+        self.hidden_stack = []
         self.texts = []
+
+    @staticmethod
+    def _non_content(attrs) -> bool:
+        d = dict(attrs)
+        return "data-dynamic" in d or d.get("aria-hidden") == "true"
 
     def handle_starttag(self, tag, attrs):
         if tag in self.SKIP:
             self.depth_skip += 1
+        elif tag not in self.VOID:
+            self.hidden_stack.append(self._non_content(attrs))
 
     def handle_endtag(self, tag):
-        if tag in self.SKIP and self.depth_skip:
-            self.depth_skip -= 1
+        if tag in self.SKIP:
+            if self.depth_skip:
+                self.depth_skip -= 1
+        elif tag not in self.VOID and self.hidden_stack:
+            self.hidden_stack.pop()
 
     def handle_data(self, data):
-        if not self.depth_skip and data.strip():
+        if not self.depth_skip and not any(self.hidden_stack) and data.strip():
             self.texts.append(data.strip())
 
 
@@ -132,11 +149,13 @@ def test_every_visible_string_is_gated(page):
 def test_key_strings_present():
     text = norm(" ".join(visible_text(INDEX)))
     for needle in [
-        "AVXT is an AI receptionist for Ontario home service shops.",
-        "One flat monthly number",
-        "The first month is free",
+        "Every call gets answered, even when no one can get to the phone.",
+        "One flat number, on paper, before you sign.",
+        "The first month is free.",
+        "Get a free missed call audit",
         "Gurkaran Grewal, AVXT",
         "karan@avxt.ca",
+        "This site runs no trackers and sets no cookies.",
     ]:
         assert needle in text, f"missing from page: {needle}"
 
