@@ -12,9 +12,19 @@ unbound, records replaced, repo made private. History in git.
 ## The Fly app
 
 - App: `avxt-site`, org `personal`, region `yyz` (Toronto), single
-  shared-cpu-1x/256MB machine, always on (~$2 USD/mo). nginx:1.27-alpine
-  serving `docs/` per `nginx.conf` (gzip, immutable font/image caching,
-  no-cache HTML, 404 page wired).
+  shared-cpu-1x/256MB machine, always on (~$2 USD/mo). Since 2026-08-21:
+  `python:3.12-alpine` running `server.py` (static docs/ with gzip +
+  immutable caching, `POST /api/contact`, `/healthz`), replacing the
+  nginx-only container so the contact form has a backend.
+- Volume: `avxt_data` (1GB, yyz) mounted at `/data` — every form
+  submission appends to `/data/submissions.jsonl`, whether or not email
+  is configured. Read it:
+  `flyctl ssh console -a avxt-site -C "cat /data/submissions.jsonl"`.
+- Email: submissions are mailed to karan@avxt.ca via Spacemail SMTP only
+  once the secret exists — the owner sets it himself, so the password
+  never reaches the repo or a session:
+  `flyctl secrets set SMTP_PASSWORD=<spacemail password> -a avxt-site`
+  Until then the server logs MAIL-DISABLED and disk is the only delivery.
 - IPs: shared IPv4 `66.241.124.191`, dedicated IPv6 `2a09:8280:1::179:2e23:0`.
 - Certs: `fly certs add avxt.ca` + `fly certs add www.avxt.ca` (Let's
   Encrypt, auto-renewing).
@@ -45,6 +55,10 @@ untouched. Custom records:
 3. `fly certs check avxt.ca -a avxt-site` → verified.
 4. `https://avxt.ca` renders in a real browser; http:// redirects (force_https).
 5. `nslookup -type=MX avxt.ca` still returns mx1/mx2.spacemail.com.
+6. Submit the form with a test marker, then confirm the row landed:
+   `flyctl ssh console -a avxt-site -C "cat /data/submissions.jsonl"` —
+   and delete the test row after. If SMTP is configured, also confirm
+   the email arrived.
 
 ## Rollback
 
