@@ -10,6 +10,13 @@ lets stop confining to one sector we need to land the first client and then
 start building in that sector." Sector-specific strings replaced with
 sector-agnostic ones; structure and everything else untouched.
 
+v2.2 (2026-08-20, same night): owner ruling "i am deprecating the first free
+month, i heard sam altman say if you are going to charge for your product,
+actually charge for it dont give it away for free because then you wont find
+meaningful customers." The free-month paragraph and every echo of it removed;
+the start-at-passed-test-call trigger and printed-invoice-date mechanics stay,
+now attached to billing instead of a free month.
+
 Every human-visible string on the page, in page order. The test suite asserts
 the deployed HTML's visible text is exactly this file's strings (dynamic
 JS-filled elements are marked data-dynamic and exempt). Storefront copy in the
@@ -94,7 +101,7 @@ Flat monthly. No tiers, no per-minute meter, no overage, and spam never counts t
 
 Your number is set off your own measured missed call count, quoted at the bottom of the band it lands in. It goes on the page before you sign, and it's frozen for twelve months.
 
-The first month is free. It starts the day the test call passes, not the day you sign, and the month-two invoice date is printed on the same page, so nothing about it arrives cold.
+Billing starts the day your test call passes, not the day you sign, and the first invoice date is printed on the same page, so nothing about it arrives cold.
 
 The number itself isn't on this site because it comes off your call volume, not a rate card. One call with me and you'll have yours in writing.
 
@@ -134,7 +141,7 @@ Same thing that happens at 2 PM. It answers, asks, books the morning slot, and o
 
 Can I hear it before committing to anything?
 
-The test call is the first thing we do together, and your free month runs from the day that call passes. Before any of that, the audit is free and tells you whether this is even worth your time.
+The test call is the first thing we do together, and billing doesn't start until the day it passes. Before any of that, the audit is free and tells you whether this is even worth your time.
 
 Who am I dealing with?
 
@@ -163,7 +170,7 @@ Yes, the site is handmade. karan@avxt.ca
 
 AVXT · AI receptionist for Ontario businesses
 
-Every call to your business gets answered, even when no one can get to the phone. AVXT asks your questions, takes the booking, and rings you while the caller is on the line. Flat monthly price. First month free.
+Every call to your business gets answered, even when no one can get to the phone. AVXT asks your questions, takes the booking, and rings you while the caller is on the line. Flat monthly price, in writing before you sign.
 
 ## og image text
 

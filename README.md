@@ -36,10 +36,11 @@ enforces mechanically:
 - `tests/` assert the HTML's visible text is a subset of the gated file,
   so un-gated copy cannot ship while tests are green.
 
-**Standing copy caveat:** "The first month is free" is the founding offer
-(one client, sales-kit-founding-offer.md). When the founding page is
-countersigned, that paragraph must be rewritten (shop B gets band price,
-no free month) — update copy + page + re-gate the same day.
+**Free month DEPRECATED 2026-08-20** (owner ruling, same night as launch:
+charge for the product, don't give it away). The page now says billing
+starts the day the test call passes. The old standing caveat about
+rewriting the free-month paragraph at countersign is moot — there is no
+free-month paragraph anymore.
 
 ## Build (only needed when changing fonts/art)
 

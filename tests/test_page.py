@@ -151,7 +151,7 @@ def test_key_strings_present():
     for needle in [
         "Every call gets answered, even when no one can get to the phone.",
         "One flat number, on paper, before you sign.",
-        "The first month is free.",
+        "Billing starts the day your test call passes",
         "Get a free missed call audit",
         "Gurkaran Grewal, AVXT",
         "karan@avxt.ca",
