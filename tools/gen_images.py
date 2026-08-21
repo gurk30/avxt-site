@@ -131,7 +131,7 @@ def make_og() -> None:
     bold = ImageFont.truetype(str(ensure_bold_ttf()), 92 * S)
     dr.text((80 * S, 200 * S), "The phone gets\nanswered.", font=bold, fill=INK)
     reg = ImageFont.truetype(str(ensure_bold_ttf()), 32 * S)
-    dr.text((84 * S, 452 * S), "AVXT · AI receptionist for Ontario home service shops",
+    dr.text((84 * S, 452 * S), "AVXT · AI receptionist for Ontario businesses",
             font=reg, fill=DIM)
 
     img = img.resize((W, H), Image.LANCZOS)

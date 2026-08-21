@@ -1,6 +1,8 @@
 # avxt-site — the avxt.ca landing page
 
-The public page for AVXT (AI receptionist for Ontario home service shops).
+The public page for AVXT (AI receptionist for Ontario businesses — sector-
+agnostic since 2026-08-20, owner ruling: land the first client, then build
+in that sector).
 One static page, zero JavaScript, zero third-party requests, self-hosted
 subset fonts. Built 2026-08-20; style A ("dark card") picked by the owner
 from four candidates the same evening (comps in `comps/`).
