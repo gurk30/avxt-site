@@ -33,6 +33,7 @@
   --indigo:#4353ff; --indigo-deep:#3341e0; --violet:#8b5cf6; --pink:#f472b6;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 ::selection{background:var(--indigo);color:#fff}
@@ -87,10 +88,10 @@ h1,h2{text-wrap:balance}
   padding:calc(64px + clamp(48px,7vw,96px)) 0 clamp(64px,8vw,112px);overflow:hidden;
 }
 .hero .art{
-  position:absolute;right:-9%;top:50%;width:min(62%,720px);
-  transform:translateY(-50%);pointer-events:none;user-select:none;opacity:.8;
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;pointer-events:none;user-select:none;opacity:.55;
 }
-.contours{width:100%;height:auto;display:block}
+.contours{width:max(115%,880px);flex:none;height:auto;display:block}
 @media (prefers-reduced-motion:no-preference){
   .hero .art svg{animation:drift 240s linear infinite;transform-origin:50% 47%}
   @keyframes drift{to{transform:rotate(360deg)}}
@@ -150,13 +151,26 @@ h1,h2{text-wrap:balance}
 }
 .band.dark .eyebrow{color:var(--violet)}
 .band.dark h2{color:var(--ink-d)}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:46rem;margin-bottom:1rem}
+.plan{
+  border:1px solid var(--line-d);border-radius:18px;background:rgba(12,13,18,.55);
+  padding:clamp(1.2rem,2.4vw,1.7rem);transition:transform .16s ease,border-color .16s ease;
+}
+.plan:hover{transform:translateY(-2px)}
+.plan.featured{border-color:var(--violet)}
+.plan-name{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.76rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--body-d);
+}
+.plan-name i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.plan.entry .plan-name i{background:#22a06b}
+.plan.featured .plan-name i{background:var(--indigo)}
+.plan-price{color:var(--ink-d);font-weight:700;font-size:clamp(1.35rem,2vw,1.7rem);letter-spacing:-.015em;margin:.55rem 0 .9rem}
+.plan .body{line-height:1.66;font-size:.98rem}
+@media (max-width:700px){.plans{grid-template-columns:1fr}}
 .terms{border:1px solid var(--line-d);border-radius:18px;background:rgba(12,13,18,.55);padding:clamp(1.3rem,2.6vw,2.1rem);max-width:46rem}
 .terms p{line-height:1.72;font-size:1.03rem}
 .terms p + p{margin-top:1.15rem;padding-top:1.15rem;border-top:1px solid var(--line-d)}
-.terms p.free{
-  border-left:3px solid var(--violet);
-  padding-left:1rem;
-}
 /* audit band */
 .band.accent{
   background:linear-gradient(150deg,#e7eafc 0%,#ddd8f6 60%,#e9def2 100%);
@@ -188,11 +202,23 @@ h1,h2{text-wrap:balance}
 .band.contact .sec{grid-template-columns:1fr}
 .band.contact h2{color:var(--ink-d);font-size:clamp(1.9rem,4vw,3rem);margin-bottom:1rem}
 .band.contact .prose p{max-width:38rem}
-.band.contact .btn{margin-top:1.9rem}
-address{font-style:normal;margin-top:2.4rem;line-height:1.85;color:var(--dim-d)}
-address .name{color:var(--body-d);font-weight:500}
-address a{color:var(--body-d);text-decoration:none;border-bottom:1px solid var(--line-d);transition:color .15s,border-color .15s}
-address a:hover{color:var(--ink-d);border-color:var(--dim-d)}
+/* contact form */
+.cform{max-width:34rem;margin-top:2rem;display:grid;gap:1.05rem}
+.fld{display:grid;gap:.45rem}
+.fld label{font-size:.78rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--dim-d)}
+.fld input,.fld textarea{
+  background:rgba(22,23,31,.8);border:1px solid var(--line-d);border-radius:12px;
+  padding:.85rem 1rem;color:var(--ink-d);font:inherit;font-size:1rem;width:100%;
+  transition:border-color .15s ease;
+}
+.fld textarea{resize:vertical;min-height:96px}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--violet)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1.05rem}
+@media (max-width:640px){.row2{grid-template-columns:1fr}}
+.hp{position:absolute;left:-9999px;top:auto}
+.cform .btn{justify-self:start;margin-top:.2rem;border:0;cursor:pointer;font-size:1rem}
+.formline{font-size:.95rem;color:var(--body-d)}
+.formline.ok{margin-top:2rem;font-weight:500;color:var(--ink-d)}
 /* footer */
 footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
 .foot-in{padding:2.2rem 0 2.6rem;position:relative;font-size:.85rem;line-height:1.9}
@@ -209,7 +235,7 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
   .sec{grid-template-columns:1fr;gap:.9rem}
   .eyebrow{padding-top:0}
   .nav a.link{display:none}
-  .hero .art{right:-42%;width:105%;opacity:.3}
+  .hero .art{opacity:.35}
 }
 @media print{
   .nav,.skip,.chip,.hero .art,.watermark{display:none}
@@ -226,8 +252,8 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
     <nav aria-label="Sections">
       <a class="link" href="#how">how it works</a>
       <a class="link" href="#price">the price</a>
-      <a class="link" href="#faq">questions</a>
-      <a class="btn btn-solid btn-sm" href="mailto:karan@avxt.ca?subject=avxt">Email Karan</a>
+      <a class="link" href="#faq">frequently asked questions</a>
+      <a class="btn btn-solid btn-sm" href="#contact">Contact</a>
     </nav>
   </div>
 </header>
@@ -239,10 +265,10 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
       <h1>Every call gets answered, even when no one can get to the phone.</h1>
       <p class="lede">AVXT is an AI receptionist for small businesses in Ontario. It picks up on your existing number, greets callers with your business name, asks the questions you'd ask, takes the booking, and rings your cell while the caller is still on the line.</p>
       <div class="cta-row">
-        <a class="btn btn-solid" href="mailto:karan@avxt.ca?subject=missed%20call%20audit">Get a free missed call audit<span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-solid" href="#contact">Get a free missed call audit<span class="arr" aria-hidden="true">&rarr;</span></a>
         <a class="btn btn-ghost" href="#price">See the price</a>
       </div>
-      <p class="microline">No form on this site. It's an email to me, and I'm the one who answers it.</p>
+      <p class="microline">The form at the bottom of this page comes straight to me, and I'm the one who answers it.</p>
     </div>
   </section>
 
@@ -296,12 +322,22 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
     <div class="wrap sec reveal">
       <p class="eyebrow">04 · The price</p>
       <div>
-        <h2>One flat number, on paper, before you sign.</h2>
+        <h2>Two plans, on paper before you sign.</h2>
+        <div class="plans">
+          <div class="plan entry">
+            <p class="plan-name"><i aria-hidden="true"></i>Answered</p>
+            <p class="plan-price">$30 a month</p>
+            <p class="body">Every call you can't get to is picked up with your business name and your questions get asked. The caller's name, number and reason land with you right after, and the spam never reaches you.</p>
+          </div>
+          <div class="plan featured">
+            <p class="plan-name"><i aria-hidden="true"></i>Booked</p>
+            <p class="plan-price">from $200 a month</p>
+            <p class="body">Everything in Answered, and a caller who passes your rule gets booked into your calendar while your phone rings with them still on the line. Your exact number is set off your own measured missed call count, quoted at the bottom of the band it lands in, in writing before you sign, and frozen for twelve months.</p>
+          </div>
+        </div>
         <div class="terms">
-          <p>Flat monthly. No tiers, no per-minute meter, no overage, and spam never counts toward anything.</p>
-          <p>Your number is set off your own measured missed call count, quoted at the bottom of the band it lands in. It goes on the page before you sign, and it's frozen for twelve months.</p>
-          <p class="free">Billing starts the day your test call passes, not the day you sign, and the first invoice date is printed on the same page, so nothing about it arrives cold.</p>
-          <p>The number itself isn't on this site because it comes off your call volume, not a rate card. One call with me and you'll have yours in writing.</p>
+          <p>Both plans: flat monthly, no per-minute meter, no overage, and spam never counts toward anything. Billing starts the day your test call passes, and you can shut it off yourself with a forwarding code, billing stops the same day.</p>
+          <p>The Booked number isn't printed here because it comes off your call volume, not a rate card. One call and you'll have yours in writing.</p>
         </div>
       </div>
     </div>
@@ -313,14 +349,14 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
         <p class="eyebrow">05 · The audit</p>
         <h2>See what your line is missing.</h2>
         <p>I'll run a free missed call audit on your business line: when it rings out, where callers give up, and what that has been costing. Ten minutes of your time, you see everything I find, and you decide from there.</p>
-        <a class="btn btn-solid" href="mailto:karan@avxt.ca?subject=missed%20call%20audit">Get the free audit<span class="arr" aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn-solid" href="#contact">Get the free audit<span class="arr" aria-hidden="true">&rarr;</span></a>
       </div>
     </div>
   </section>
 
   <section class="band alt" id="faq">
     <div class="wrap sec reveal">
-      <p class="eyebrow">Questions</p>
+      <p class="eyebrow">Frequently asked questions</p>
       <div class="faq">
         <details>
           <summary>What if the caller just wants a real person?</summary>
@@ -332,7 +368,7 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
         </details>
         <details>
           <summary>What does it cost?</summary>
-          <p>One flat monthly number, set off your own missed call count, quoted at the bottom of the band, frozen for a year. Spam never counts. Email me and you'll have your number in writing after one call.</p>
+          <p>Two plans. Answered is $30 a month flat. Booked starts at $200, with your exact number set off your own missed call count, quoted at the bottom of the band, frozen for a year. Spam never counts on either. Send the form and you'll have your number in writing after one call.</p>
         </details>
         <details>
           <summary>Do I need a new number or new hardware?</summary>
@@ -348,7 +384,7 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
         </details>
         <details>
           <summary>Who am I dealing with?</summary>
-          <p>Me, Gurkaran Grewal. I run AVXT from Ontario, I do every setup myself, and karan@avxt.ca lands in my inbox, not a ticket queue.</p>
+          <p>One person in Ontario, not a call center. I do every setup myself, and what you type into the form on this page lands with me, not a ticket queue.</p>
         </details>
       </div>
     </div>
@@ -357,14 +393,36 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
   <section class="band contact" id="contact">
     <div class="wrap sec reveal">
       <div class="prose">
-        <h2>Email me what you've got.</h2>
+        <h2>Send me what you've got.</h2>
         <p>Even if it's just a phone number and the words "call me". I read it, I answer it, and if it isn't a fit I'll say that too.</p>
-        <a class="btn btn-solid" href="mailto:karan@avxt.ca?subject=15%20minutes">Email Karan<span class="arr" aria-hidden="true">&rarr;</span></a>
-        <address>
-          <span class="name">Gurkaran Grewal, AVXT</span><br>
-          <a href="mailto:karan@avxt.ca">karan@avxt.ca</a><br>
-          Ontario, Canada
-        </address>
+        <form class="cform" id="cform" method="post" action="/api/contact">
+          <div class="fld">
+            <label for="f-business">Business name</label>
+            <input id="f-business" name="business" type="text" maxlength="120" required autocomplete="organization">
+          </div>
+          <div class="row2">
+            <div class="fld">
+              <label for="f-phone">Phone</label>
+              <input id="f-phone" name="phone" type="tel" maxlength="40" required autocomplete="tel">
+            </div>
+            <div class="fld">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" maxlength="120" autocomplete="email">
+            </div>
+          </div>
+          <div class="fld">
+            <label for="f-notes">What's going on with your phones (optional)</label>
+            <textarea id="f-notes" name="notes" rows="4" maxlength="2000"></textarea>
+          </div>
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Website</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="btn btn-solid" type="submit" id="cbtn">Send it<span class="arr" aria-hidden="true">&rarr;</span></button>
+          <p class="formline" id="f-err" hidden>That didn't go through. Give it a minute and try again.</p>
+        </form>
+        <p class="formline ok" id="f-ok" hidden>Got it. You'll hear back from me.</p>
+        <p class="microline">Your details go to me and nowhere else. No list, no follow-up sequence.</p>
       </div>
     </div>
   </section>
@@ -372,7 +430,7 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
 <footer>
   <div class="watermark" aria-hidden="true">AVXT</div>
   <div class="wrap foot-in">
-    © 2026 AVXT · Ontario, Canada · karan@avxt.ca<br>
+    © 2026 AVXT · Ontario, Canada<br>
     This site runs no trackers and sets no cookies.
   </div>
 </footer>
@@ -434,7 +492,34 @@ document.documentElement.classList.add('js');
     secs.forEach(function (s) { if (s) spy.observe(s); });
   }
 
-  console.log('%cYes, the site is handmade. karan@avxt.ca',
+  // contact form: fetch POST; without JS the form falls back to /thanks.html
+  var form = document.getElementById('cform');
+  if (form && window.fetch) {
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var btn = document.getElementById('cbtn');
+      var err = document.getElementById('f-err');
+      err.hidden = true;
+      btn.disabled = true;
+      var label = btn.firstChild.nodeValue;
+      btn.firstChild.nodeValue = 'Sending...';
+      fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new URLSearchParams(new FormData(form))
+      }).then(function (r) {
+        if (!r.ok) { throw new Error(String(r.status)); }
+        form.hidden = true;
+        document.getElementById('f-ok').hidden = false;
+      }).catch(function () {
+        err.hidden = false;
+        btn.disabled = false;
+        btn.firstChild.nodeValue = label;
+      });
+    });
+  }
+
+  console.log('%cYes, the site is handmade.',
     'font-family:monospace;color:#8b5cf6');
 })();
 </script>

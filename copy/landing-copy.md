@@ -17,6 +17,14 @@ meaningful customers." The free-month paragraph and every echo of it removed;
 the start-at-passed-test-call trigger and printed-invoice-date mechanics stay,
 now attached to billing instead of a free month.
 
+v2.3 (2026-08-21): owner rulings in session. Contour art becomes the whole
+hero background, "questions" becomes "frequently asked questions", pricing
+goes two-tier like Jobber ("lower tier plan for like 30 dollars and then the
+higher tier"; higher tier printed "from $200", the bottom of his ruled band),
+the Email Karan mailto button is replaced ("doesnt do anything"), his name
+and email come off the page, and a contact form like the HVAC shop forms
+goes in. Form posts to /api/contact on the same host.
+
 Every human-visible string on the page, in page order. The test suite asserts
 the deployed HTML's visible text is exactly this file's strings (dynamic
 JS-filled elements are marked data-dynamic and exempt). Storefront copy in the
@@ -28,8 +36,8 @@ Skip to content
 AVXT
 how it works
 the price
-questions
-Email Karan
+frequently asked questions
+Contact
 
 ## hero
 
@@ -41,7 +49,7 @@ Get a free missed call audit
 
 See the price
 
-No form on this site. It's an email to me, and I'm the one who answers it.
+The form at the bottom of this page comes straight to me, and I'm the one who answers it.
 
 ## section 01 setup
 
@@ -95,15 +103,23 @@ If a month shows nothing, you'll hear that from me first, and we stop there.
 
 04 · The price
 
-One flat number, on paper, before you sign.
+Two plans, on paper before you sign.
 
-Flat monthly. No tiers, no per-minute meter, no overage, and spam never counts toward anything.
+Answered
 
-Your number is set off your own measured missed call count, quoted at the bottom of the band it lands in. It goes on the page before you sign, and it's frozen for twelve months.
+$30 a month
 
-Billing starts the day your test call passes, not the day you sign, and the first invoice date is printed on the same page, so nothing about it arrives cold.
+Every call you can't get to is picked up with your business name and your questions get asked. The caller's name, number and reason land with you right after, and the spam never reaches you.
 
-The number itself isn't on this site because it comes off your call volume, not a rate card. One call with me and you'll have yours in writing.
+Booked
+
+from $200 a month
+
+Everything in Answered, and a caller who passes your rule gets booked into your calendar while your phone rings with them still on the line. Your exact number is set off your own measured missed call count, quoted at the bottom of the band it lands in, in writing before you sign, and frozen for twelve months.
+
+Both plans: flat monthly, no per-minute meter, no overage, and spam never counts toward anything. Billing starts the day your test call passes, and you can shut it off yourself with a forwarding code, billing stops the same day.
+
+The Booked number isn't printed here because it comes off your call volume, not a rate card. One call and you'll have yours in writing.
 
 ## section 05 audit
 
@@ -117,7 +133,7 @@ Get the free audit
 
 ## faq
 
-Questions
+Frequently asked questions
 
 What if the caller just wants a real person?
 
@@ -129,7 +145,7 @@ Voicemail takes a message and waits. This asks your questions while the caller i
 
 What does it cost?
 
-One flat monthly number, set off your own missed call count, quoted at the bottom of the band, frozen for a year. Spam never counts. Email me and you'll have your number in writing after one call.
+Two plans. Answered is $30 a month flat. Booked starts at $200, with your exact number set off your own missed call count, quoted at the bottom of the band, frozen for a year. Spam never counts on either. Send the form and you'll have your number in writing after one call.
 
 Do I need a new number or new hardware?
 
@@ -145,26 +161,40 @@ The test call is the first thing we do together, and billing doesn't start until
 
 Who am I dealing with?
 
-Me, Gurkaran Grewal. I run AVXT from Ontario, I do every setup myself, and karan@avxt.ca lands in my inbox, not a ticket queue.
+One person in Ontario, not a call center. I do every setup myself, and what you type into the form on this page lands with me, not a ticket queue.
 
 ## contact
 
-Email me what you've got.
+Send me what you've got.
 
 Even if it's just a phone number and the words "call me". I read it, I answer it, and if it isn't a fit I'll say that too.
 
-Gurkaran Grewal, AVXT
-karan@avxt.ca
-Ontario, Canada
+Business name
+
+Phone
+
+Email
+
+What's going on with your phones (optional)
+
+Send it
+
+Sending...
+
+Got it. You'll hear back from me.
+
+That didn't go through. Give it a minute and try again.
+
+Your details go to me and nowhere else. No list, no follow-up sequence.
 
 ## footer
 
-© 2026 AVXT · Ontario, Canada · karan@avxt.ca
+© 2026 AVXT · Ontario, Canada
 This site runs no trackers and sets no cookies.
 
 ## console easter egg (dev tools only)
 
-Yes, the site is handmade. karan@avxt.ca
+Yes, the site is handmade.
 
 ## meta (title + description)
 
@@ -183,5 +213,13 @@ AVXT · AI receptionist for Ontario businesses
 Nothing at this address.
 
 The page you want is the front one.
+
+Back to avxt.ca
+
+## thanks page (no-JS form fallback)
+
+Got it.
+
+It's on its way to me and I'll get back to you. If it isn't a fit, I'll say that plainly.
 
 Back to avxt.ca

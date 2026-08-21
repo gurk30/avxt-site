@@ -3,23 +3,30 @@
 The public page for AVXT (AI receptionist for Ontario businesses — sector-
 agnostic since 2026-08-20, owner ruling: land the first client, then build
 in that sector).
-One static page, zero JavaScript, zero third-party requests, self-hosted
-subset fonts. Built 2026-08-20; style A ("dark card") picked by the owner
-from four candidates the same evening (comps in `comps/`).
+One page plus a contact-form endpoint, zero third-party requests,
+self-hosted subset fonts. Built 2026-08-20 (v1 killed same night, v2 is
+the company-site rebuild); v2.3 (2026-08-21) added the full-background
+contour hero, Jobber-style two-tier pricing (Answered $30 / Booked from
+$200), and the contact form that replaced every mailto CTA — the owner's
+name and email are deliberately absent from the page. `server.py` (python
+stdlib) serves `docs/` and handles `POST /api/contact`: every submission
+persists to the Fly volume and is emailed via Spacemail SMTP when the
+`SMTP_PASSWORD` secret is set (owner-set only, never in this repo).
 
 ## Layout
 
 ```
-docs/            what actually deploys (GitHub Pages serves this folder)
-  index.html     the page (style A), contour art inlined between markers
+server.py        static file server + POST /api/contact (python stdlib, no deps)
+docs/            the site the server serves
+  index.html     the page, contour art inlined between markers
   404.html       not-found page, same copy governance
+  thanks.html    no-JS form fallback target
   fonts/         Space Grotesk latin subsets (woff2, built locally)
   og.png         link-preview card, favicon.* / apple-touch-icon.png
-  CNAME          custom-domain binding for GitHub Pages (avxt.ca)
   _gen/          generator output + local check pages (gitignored, never deploys)
 copy/landing-copy.md   EVERY visible string on the page, in order — see below
 tools/           fetch_font / build_fonts / gen_contours / inject_art / gen_images
-tests/           pytest suite (voice gate, copy sync, a11y, perf, integrity)
+tests/           pytest suite (voice gate, copy sync, a11y, perf, server round-trip)
 comps/           the three unpicked style candidates (B paper, C amber, D Swiss)
 ```
 
@@ -41,6 +48,11 @@ charge for the product, don't give it away). The page now says billing
 starts the day the test call passes. The old standing caveat about
 rewriting the free-month paragraph at countersign is moot — there is no
 free-month paragraph anymore.
+
+**Two-tier pricing 2026-08-21** (owner ruling, Jobber-style): Answered at
+$30/month flat, Booked from $200/month with the measured band-floor
+mechanic. The $200 floor is the owner's ruled §6.3 band bottom. The
+Answered tier is a NEW SKU that exists nowhere in the vault sales kit yet.
 
 ## Build (only needed when changing fonts/art)
 

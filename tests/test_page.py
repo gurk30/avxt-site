@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 INDEX = DOCS / "index.html"
 NOTFOUND = DOCS / "404.html"
+THANKS = DOCS / "thanks.html"
 COPY = ROOT / "copy" / "landing-copy.md"
 VAULT_CHECKER = Path(r"C:\Users\gurka\Brain Vault\scripts\voice_check.py")
 
@@ -140,7 +141,7 @@ def test_voice_gate_passes():
 
 # ---------- copy sync ----------
 
-@pytest.mark.parametrize("page", [INDEX, NOTFOUND])
+@pytest.mark.parametrize("page", [INDEX, NOTFOUND, THANKS])
 def test_every_visible_string_is_gated(page):
     missing = [t for t in visible_text(page) if norm(t) not in COPY_TEXT]
     assert not missing, f"visible text not in gated copy file: {missing}"
@@ -150,11 +151,12 @@ def test_key_strings_present():
     text = norm(" ".join(visible_text(INDEX)))
     for needle in [
         "Every call gets answered, even when no one can get to the phone.",
-        "One flat number, on paper, before you sign.",
+        "Two plans, on paper before you sign.",
+        "$30 a month",
+        "from $200 a month",
         "Billing starts the day your test call passes",
         "Get a free missed call audit",
-        "Gurkaran Grewal, AVXT",
-        "karan@avxt.ca",
+        "Send it",
         "This site runs no trackers and sets no cookies.",
     ]:
         assert needle in text, f"missing from page: {needle}"
@@ -162,7 +164,7 @@ def test_key_strings_present():
 
 # ---------- banned typography ----------
 
-@pytest.mark.parametrize("page", [INDEX, NOTFOUND])
+@pytest.mark.parametrize("page", [INDEX, NOTFOUND, THANKS])
 def test_no_banned_typography(page):
     joined = " ".join(visible_text(page))
     for ch, name in [("\u2014", "em dash"), ("\u2013", "en dash"),
@@ -255,16 +257,38 @@ def test_a11y_landmarks():
     assert "prefers-reduced-motion" in HTML
 
 
-def test_mailto_ctas():
-    mailtos = re.findall(r'href="(mailto:[^"]+)"', HTML)
-    assert len(mailtos) >= 3
-    for m in mailtos:
-        assert m.startswith("mailto:karan@avxt.ca"), m
+def test_no_identity_on_page():
+    # owner ruling 2026-08-21: name and email off the page, form instead
+    assert "mailto:" not in HTML
+    assert "karan@avxt.ca" not in HTML
+    assert "Gurkaran" not in HTML
+
+
+def test_contact_form():
+    assert '<form class="cform" id="cform" method="post" action="/api/contact">' in HTML
+    for field in ['name="business"', 'name="phone"', 'name="email"',
+                  'name="notes"', 'name="website"']:
+        assert field in HTML, f"form field missing: {field}"
+    # honeypot must be hidden from readers and screen readers alike
+    assert '<div class="hp" aria-hidden="true">' in HTML
+    assert 'type="submit"' in HTML
+    # required floors mirror the server's validation
+    assert re.search(r'name="business"[^>]*required', HTML)
+    assert re.search(r'name="phone"[^>]*required', HTML)
+    # the hidden attribute must beat display classes, or the form never
+    # disappears on success (caught live 2026-08-21)
+    assert "[hidden]{display:none!important}" in HTML
+
+
+def test_thanks_page():
+    html = THANKS.read_text(encoding="utf-8")
+    assert 'name="robots" content="noindex"' in html
+    assert 'href="https://avxt.ca/"' in html
 
 
 # ---------- structure ----------
 
-@pytest.mark.parametrize("page", [INDEX, NOTFOUND])
+@pytest.mark.parametrize("page", [INDEX, NOTFOUND, THANKS])
 def test_tags_balanced(page):
     b = TagBalancer()
     b.feed(page.read_text(encoding="utf-8"))
@@ -280,6 +304,13 @@ def test_fly_config():
     assert not (DOCS / "CNAME").exists()
     fly = (ROOT / "fly.toml").read_text()
     assert 'app = "avxt-site"' in fly and 'primary_region = "yyz"' in fly
+    # the form (2026-08-21) needs the python server, its volume, and no
+    # SMTP secret in the repo
+    assert 'source = "avxt_data"' in fly and 'destination = "/data"' in fly
+    # the password is a Fly secret; an assignment line here would be INV-3
+    assert not re.search(r"(?m)^\s*SMTP_PASSWORD\s*=", fly)
+    docker = (ROOT / "Dockerfile").read_text()
+    assert "server.py" in docker and "python" in docker
 
 
 def test_robots():

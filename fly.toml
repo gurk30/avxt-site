@@ -1,8 +1,21 @@
-# avxt.ca static site — tiny nginx app, isolated from nova-ai-receptionist
+# avxt.ca — static site + contact-form endpoint, isolated from nova-ai-receptionist
+# Server: server.py (python stdlib). Email needs the SMTP_PASSWORD secret,
+# set by the owner only:  flyctl secrets set SMTP_PASSWORD=... -a avxt-site
 app = "avxt-site"
 primary_region = "yyz"
 
 [build]
+
+[env]
+  SMTP_HOST = "mail.spacemail.com"
+  SMTP_PORT = "465"
+  SMTP_USER = "karan@avxt.ca"
+  MAIL_TO = "karan@avxt.ca"
+  DATA_DIR = "/data"
+
+[mounts]
+  source = "avxt_data"
+  destination = "/data"
 
 [http_service]
   internal_port = 8080
@@ -10,6 +23,13 @@ primary_region = "yyz"
   auto_stop_machines = "off"
   auto_start_machines = true
   min_machines_running = 1
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/healthz"
 
 [[vm]]
   size = "shared-cpu-1x"
