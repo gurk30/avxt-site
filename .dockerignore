@@ -1,0 +1,11 @@
+.git
+docs/_gen/
+docs/fonts/SpaceGrotesk-VF.ttf
+docs/fonts/_sg-bold-full.ttf
+docs/CNAME
+comps/
+tests/
+tools/
+copy/
+shots/
+*.md

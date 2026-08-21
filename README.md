@@ -64,15 +64,16 @@ art integrity + determinism, WCAG AA contrast on every used token pair,
 single-h1/landmarks/skip-link, mailto CTAs, tag balance, CNAME/robots/404,
 woff2 magic bytes, page-weight budget (critical path < 200 KB; actual ~62 KB).
 
-## Hosting decision (2026-08-20, simplest-first per the standing rule)
+## Hosting decision
 
-Options enumerated: GitHub Pages (free, public repo required on Free plan —
-docs.github.com plan table), Cloudflare Pages (rejected: apex custom domain
-needs the zone on Cloudflare nameservers; moving NS off Spaceship mid
-email-warm-up risks the Spacemail records), Fly.io static ($2.02/mo/machine,
-fly.io/docs/about/pricing — viable fallback, and flyctl auth on this PC is
-currently expired anyway), Spaceship hosting (paid, adds nothing over Pages).
-Picked: **GitHub Pages from `docs/` on master**, public repo `gurk30/avxt-site`.
+2026-08-20, two rounds. Round 1 (simplest-first): GitHub Pages from /docs,
+public repo (Free-plan requirement). Round 2, same evening: the owner signed
+into Fly and ruled "host the website on that server" — moved to a dedicated
+tiny Fly app (`avxt-site`, yyz) in the same org as Nova; the repo went
+private since Pages no longer constrains visibility. Not deployed inside the
+Nova machine itself: redeploying Nova from this PC would push undeployed
+code (v1.2.1) to the production phone line. Cloudflare Pages stayed rejected
+(nameserver move would risk Spacemail mid warm-up).
 
 ## Deploy
 

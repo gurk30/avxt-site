@@ -274,8 +274,12 @@ def test_tags_balanced(page):
 
 # ---------- deploy files ----------
 
-def test_cname():
-    assert (DOCS / "CNAME").read_text().strip() == "avxt.ca"
+def test_fly_config():
+    # hosting moved to Fly (owner ruling 2026-08-20); the GitHub Pages CNAME
+    # artifact must stay gone or a re-enabled Pages build would fight Fly
+    assert not (DOCS / "CNAME").exists()
+    fly = (ROOT / "fly.toml").read_text()
+    assert 'app = "avxt-site"' in fly and 'primary_region = "yyz"' in fly
 
 
 def test_robots():
