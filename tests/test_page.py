@@ -30,7 +30,17 @@ INDEX = DOCS / "index.html"
 NOTFOUND = DOCS / "404.html"
 THANKS = DOCS / "thanks.html"
 COPY = ROOT / "copy" / "landing-copy.md"
-VAULT_CHECKER = Path(r"C:\Users\gurka\Brain Vault\scripts\voice_check.py")
+# The vault moved off the Windows box with the rest of the stack, and this path
+# never followed it -- so the voice gate has been skipping, not passing, on
+# every run since. First existing path wins; the skipif still covers a machine
+# that has no vault at all.
+VAULT_CHECKER = next(
+    (p for p in (
+        Path.home() / "brain-vault" / "scripts" / "voice_check.py",
+        Path(r"C:\Users\gurka\Brain Vault\scripts\voice_check.py"),
+    ) if p.exists()),
+    Path.home() / "brain-vault" / "scripts" / "voice_check.py",
+)
 
 sys.path.insert(0, str(ROOT / "tools"))
 import gen_contours  # noqa: E402
@@ -178,7 +188,7 @@ def test_no_external_requests():
     urls = re.findall(r'(?:href|src)="([^"]+)"', HTML)
     urls += re.findall(r"url\(['\"]?([^)'\"]+)", HTML)
     bad = [u for u in urls
-           if not (u.startswith(("/", "#", "mailto:", "https://avxt.ca")))]
+           if not (u.startswith(("/", "#", "mailto:", "tel:", "https://avxt.ca")))]
     assert not bad, f"external or non-root-relative references: {bad}"
 
 
@@ -262,6 +272,21 @@ def test_no_identity_on_page():
     assert "mailto:" not in HTML
     assert "karan@avxt.ca" not in HTML
     assert "Gurkaran" not in HTML
+
+
+def test_callback_number_is_reachable():
+    # The line is armed and answers 24/7, and until 2026-08-29 this page was the
+    # one surface a buyer lands on that carried no way to dial it. Three shops
+    # have called it unprompted with zero promotion behind it, so a silent
+    # regression here costs the only channel that has ever produced inbound.
+    # E.164 in the href (a contractor's phone dials it from any area code),
+    # human formatting in the text.
+    assert HTML.count('href="tel:+15313213883"') == 2, "contact section + footer"
+    text = norm(" ".join(visible_text(INDEX)))
+    assert "531-321-3883" in text, "the number must be readable, not just dialable"
+    # The form stays the primary route (owner ruling 2026-08-21); the number is
+    # an addition to the contact section, never a replacement for it.
+    assert 'action="/api/contact"' in HTML
 
 
 def test_contact_form():
