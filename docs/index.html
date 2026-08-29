@@ -219,9 +219,14 @@ h1,h2{text-wrap:balance}
 .cform .btn{justify-self:start;margin-top:.2rem;border:0;cursor:pointer;font-size:1rem}
 .formline{font-size:.95rem;color:var(--body-d)}
 .formline.ok{margin-top:2rem;font-weight:500;color:var(--ink-d)}
+.callline{margin-top:1.15rem;color:var(--body-d)}
+.callline a{color:var(--ink-d);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.callline a:hover{color:var(--violet)}
 /* footer */
 footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
 .foot-in{padding:2.2rem 0 2.6rem;position:relative;font-size:.85rem;line-height:1.9}
+.footcall{color:var(--ink-d);text-decoration:none;font-weight:500}
+.footcall:hover{text-decoration:underline}
 .watermark{
   position:absolute;right:-.04em;bottom:-.22em;font-weight:700;font-size:clamp(6rem,17vw,15rem);
   letter-spacing:.02em;color:transparent;-webkit-text-stroke:1px #191b26;pointer-events:none;user-select:none;
@@ -395,6 +400,7 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
       <div class="prose">
         <h2>Send me what you've got.</h2>
         <p>Even if it's just a phone number and the words "call me". I read it, I answer it, and if it isn't a fit I'll say that too.</p>
+        <p class="callline">Or call <a href="tel:+15313213883">531-321-3883</a> and leave your business and a number, you hear back the same day.</p>
         <form class="cform" id="cform" method="post" action="/api/contact">
           <div class="fld">
             <label for="f-business">Business name</label>
@@ -430,6 +436,7 @@ footer{background:#08090d;color:var(--dim-d);position:relative;overflow:hidden}
 <footer>
   <div class="watermark" aria-hidden="true">AVXT</div>
   <div class="wrap foot-in">
+    <a class="footcall" href="tel:+15313213883">531-321-3883</a><br>
     © 2026 AVXT · Ontario, Canada<br>
     This site runs no trackers and sets no cookies.
   </div>

@@ -169,6 +169,8 @@ Send me what you've got.
 
 Even if it's just a phone number and the words "call me". I read it, I answer it, and if it isn't a fit I'll say that too.
 
+Or call 531-321-3883 and leave your business and a number, you hear back the same day.
+
 Business name
 
 Phone
@@ -189,6 +191,7 @@ Your details go to me and nowhere else. No list, no follow-up sequence.
 
 ## footer
 
+531-321-3883
 © 2026 AVXT · Ontario, Canada
 This site runs no trackers and sets no cookies.
 
